@@ -67,6 +67,30 @@ function add() {
  
     return false;
 }
+function edititem(x)
+{
+    var id = x.currentTarget.id;
+    document.getElementById('tedit'+id).style.display="block";
+    var id1 = x.currentTarget.id;
+    
+    document.getElementById(id1+'re').style.display="block";
+    var val=  document.getElementById(id1+'re').value;
+    document.getElementById('tedit'+id).value=val;
+}
+function call2(x)
+{
+    var id = parseInt(x.currentTarget.id,10);
+    var todos = get();
+    var a=todos[id];
+a.name=document.getElementById('tedit'+id).value;
+var b=a;
+todos.splice(id,1,b)
+    localStorage.setItem('todo', JSON.stringify(todos));
+ 
+    show();
+ 
+    return false;
+}
  
 function remove(x) {
     var id = x.currentTarget.id;
@@ -104,14 +128,14 @@ function show() {
     var html = '<ul>';
     for(var i=0; i<todos.length; i++) {
         html += '<li draggable="true" ondragover="draggingOver(event)" ondrop="dropped(event)" ondragstart="dragStarted(event)"  style="list-style-type:none;background-color:rgb(255, 218, 6);">' + todos[i].name + '<button class="remove" onClick="remove(event)" style="background-color: rgb(99, 216, 103);margin-left:140px" id="' + i  + '">clear</button>';
-        html += '<button class="done" onClick="comlist(event)" style="background-color:#fa3e4e;" id="' + i  + '">done</button></li>'
+        html += '<button class="done" onClick="comlist(event)" style="background-color:#fa3e4e;" id="' + i  + '">done</button><input style="margin-left:10px;display:none;" id="tedit' + i  + '" placeholder="rename"><button onClick="edititem(event)"  id="' + i  + '">edit</button><button onClick="call2(event)" style="display:none" value="' + todos[i].name + '"  id="' + i  + 're" >yes</button></li>'
     };
     html += '</ul>';
  
      
   var html1 = '<ul>';
   for(i=0; i<comlist1.length; i++) {
-      html1 += '<li style="list-style-type:none;"> <strike>' + comlist1[i][0].name + '</strike></li>';
+      html1 += '<li style="list-style-type:none;"> ' + comlist1[i][0].name + '</li>';
       };
   html1 += '</ul>';
 
